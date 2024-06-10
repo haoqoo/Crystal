@@ -186,7 +186,7 @@ namespace Client
 
         //AutoPatcher
         public static bool P_Patcher = true;
-        public static string P_Host = @"http://mirfiles.com/mir2/cmir/patch/";
+        public static string P_Host = @"https://lomcn.5218888.xyz/resources/mir2/crystal/patch/";
         public static string P_PatchFileName = @"PList.gz";
         public static bool P_NeedLogin = false;
         public static string P_Login = string.Empty;

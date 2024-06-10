@@ -75,12 +75,12 @@ namespace LibraryViewer
 
             MessageBox.Show("This can take a while.\n Press 'OK' to Start.");
 
-            
+
             Stopwatch sw = Stopwatch.StartNew();//Timing
             int folderLength = Directory.GetFiles(folderName, "*.lib").Length;
             for (int i = 0; i < folderLength; i++)
             {
-                string PathName = folderName+Path.DirectorySeparatorChar;
+                string PathName = folderName + Path.DirectorySeparatorChar;
                 string flName = i.ToString(Prefix) + ".lib";
                 string fullname = PathName + flName;
 
@@ -260,6 +260,11 @@ namespace LibraryViewer
             }
 
             MessageBox.Show("Image export complete.", "Image export", MessageBoxButtons.OK);
+        }
+
+        private void LMain_Load(object sender, EventArgs e)
+        {
+
         }
     }
 
