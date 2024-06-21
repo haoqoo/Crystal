@@ -3095,7 +3095,8 @@ namespace Server.MirObjects
                             ReceiveChat("Cannot leave guild whilst at war.", ChatType.System);
                             return;
                         }
-
+                        if (MyGuild.Name == Settings.NewbieGuild && Settings.NewbieGuildBuffEnabled == true) RemoveBuff(BuffType.Newbie);
+                        if (HasBuff(BuffType.Guild)) RemoveBuff(BuffType.Guild);
                         MyGuild.DeleteMember(this, Name);
                         break;
 
@@ -9694,7 +9695,7 @@ namespace Server.MirObjects
                     GuildBuffInfo BuffInfo = Envir.FindGuildBuffInfo(id);
                     if (BuffInfo == null)
                     {
-                        ReceiveChat("Buff does not excist.", ChatType.System);
+                        ReceiveChat("Buff does not exist.", ChatType.System);
                         return;
                     }
                     if (MyGuild.GetBuff(id) != null)
@@ -13782,6 +13783,22 @@ namespace Server.MirObjects
             CurrentHero.SealCount++;
             Info.Heroes[CurrentHeroIndex] = null;
             CurrentHero = null;
+        }
+
+        public void DeleteHero()
+        {
+            if (CurrentHero == null) return;
+
+            if (Hero != null)
+            {
+                DespawnHero();
+                Info.HeroSpawned = false;
+                Enqueue(new S.UpdateHeroSpawnState { State = HeroSpawnState.None });
+            }
+
+            Info.Heroes[CurrentHeroIndex] = null;
+            CurrentHero = null;
+            ReceiveChat(string.Format("Hero has been released from service"), ChatType.Hint);
         }
 
         private bool AddHero(HeroInfo hero)
