@@ -5767,6 +5767,10 @@ namespace Server.MirObjects
                             Info.MaximumHeroCount++;
                             Array.Resize(ref Info.Heroes, Info.MaximumHeroCount);
                             break;
+                        case 15: //Increase Hero Inventory
+                            ReceiveChat("Must be used on Hero", ChatType.Hint);
+                            Enqueue(p);
+                            break;
                     }
                     break;
                 case ItemType.Book:
@@ -10310,6 +10314,7 @@ namespace Server.MirObjects
                         FishingChanceCounter = 0;
 
                         UserItem dropItem = null;
+                        UserItem reel = rod.Slots[(int)FishingSlot.Reel];
 
                         foreach (DropInfo drop in Envir.FishingDrops.Where(x => x.Type == fishingCell.FishingAttribute))
                         {
@@ -10332,6 +10337,7 @@ namespace Server.MirObjects
                         else if (FreeSpace(Info.Inventory) < 1)
                         {
                             ReceiveChat(GameLanguage.NoBagSpace, ChatType.System);
+                            cancel = true;
                         }
                         else
                         {
@@ -10350,7 +10356,10 @@ namespace Server.MirObjects
 
                         DamagedFishingItem(FishingSlot.Reel, 1);
 
-                        cancel = true;
+                        if (!FishingAutocast || (FishingAutocast && reel.CurrentDura == 0))
+                        {
+                            cancel = true;
+                        }
                     }
                     else
                     {
